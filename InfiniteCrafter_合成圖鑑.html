@@ -50,15 +50,16 @@ main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:24px;a
 .rom{display:inline-grid;place-items:center;min-width:34px;height:28px;padding:0 6px;border-radius:8px;border:2px solid var(--card-line);background:var(--tb);color:var(--thi);font-family:var(--display);font-size:18px;-webkit-text-stroke:.6px var(--card-line)}
 .tier h2 span{font-family:var(--body);font-size:12px;font-weight:500;color:var(--muted);letter-spacing:.06em}
 .lines{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:8px}
-.line{display:flex;align-items:stretch;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:var(--shadow)}
+.line{display:flex;align-items:stretch;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px 6px 12px;box-shadow:var(--shadow)}
 .line .tag{writing-mode:vertical-rl;font-size:10px;letter-spacing:.08em;color:var(--muted);font-variant-numeric:tabular-nums;padding:2px 0;align-self:center}
 .t1{--tb:var(--t1-bg);--tband:var(--t1-band);--thi:var(--t1-hi)}
 .t2{--tb:var(--t2-bg);--tband:var(--t2-band);--thi:var(--t2-hi)}
 .t3{--tb:var(--t3-bg);--tband:var(--t3-band);--thi:var(--t3-hi)}
 .t4{--tb:var(--t4-bg);--tband:var(--t4-band);--thi:var(--t4-hi)}
 .t5{--tb:var(--t5-bg);--tband:var(--t5-band);--thi:var(--t5-hi)}
-.chip{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 0 0;border:2px solid var(--card-line);border-radius:10px;background:var(--tb);color:var(--card-ink);font:inherit;cursor:pointer;position:relative;overflow:hidden}
-.chip .band{align-self:stretch;display:flex;flex-direction:column;align-items:center;gap:1px;background:var(--tband);padding:3px 3px 4px;margin-top:4px;min-width:0}
+.chip{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 0 0;border:2px solid var(--card-line);border-radius:10px;background:var(--tb);color:var(--card-ink);font:inherit;cursor:pointer;position:relative}
+.chip .band{border-radius:0 0 7px 7px;align-self:stretch;display:flex;flex-direction:column;align-items:center;gap:1px;background:var(--tband);padding:3px 3px 4px;margin-top:4px;min-width:0}
+.chip.has-req .band{padding-bottom:12px;padding-bottom:calc(clamp(14px,19cqw,34px) / 2 + 3px)}
 .chip:hover{filter:brightness(1.04);transform:translateY(-1px)}
 .chip:focus-visible{outline:2px solid var(--accent)}
 .chip.on{outline:3px solid var(--ink);outline-offset:2px}
@@ -164,6 +165,34 @@ body.crafting .chip.can{filter:none}
 .rcp .out small{display:block;color:var(--muted);font-size:11.5px;line-height:1.25;overflow-wrap:anywhere}
 .need2{display:inline-block;font-size:10.5px;font-weight:700;color:var(--accent);border:1px solid var(--accent);border-radius:6px;padding:0 4px;margin-left:4px}
 .miss-label{font-size:11px;color:var(--accent);font-weight:700}
+.dias{display:inline-flex;align-items:center;gap:1px;vertical-align:middle}
+.dia{display:inline-block;vertical-align:middle;width:16px;height:16px}
+.req{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);display:flex;line-height:0;z-index:2;pointer-events:none}
+.req .dia{width:20px;height:20px;margin:0 -2px}
+/* 菱形大小跟著卡片寬度縮放：遊戲裡約為卡片寬度的 19% */
+.chip.has-req{container-type:inline-size}
+.chip.has-req .req{--dz:clamp(14px,19cqw,34px);bottom:calc(var(--dz) / -2)}
+.chip.has-req .req .dia{width:var(--dz);height:var(--dz);margin:0 calc(var(--dz) * -0.06)}
+body.crafting .chip.lock{opacity:.45}
+body.crafting .chip.lock .req .dia{filter:grayscale(1)}
+.unlock{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13.5px;padding:8px 10px;border-radius:10px;background:var(--chip);border:1px solid var(--line);margin:0 0 6px}
+.unlock .st{line-height:0}
+.unlock .dia{width:20px;height:20px;margin-right:-3px}
+.unlock button{font:inherit;font-weight:700;border:0;background:none;color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0}
+details.stars-box{margin-top:6px;border:1px solid var(--line);border-radius:12px;background:var(--chip);padding:8px 10px}
+details.stars-box summary{cursor:pointer;font-size:13.5px;font-weight:700}
+.stars-opt{display:flex;align-items:center;gap:6px;font-size:13px;margin:8px 0}
+.stars{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px}
+.srow{display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:10px;background:var(--panel);border:1px solid var(--line)}
+.srow img{width:28px;height:28px;padding:2px;border-radius:7px;border:1.5px solid var(--card-line);background:var(--tb);flex:none}
+.srow .nm{flex:1;min-width:0;font-size:12.5px;font-weight:700;line-height:1.2}
+.srow .nm small{display:block;font-weight:400;color:var(--muted);font-size:10.5px}
+.sbtn{border:1px solid var(--line);background:var(--bg);color:var(--muted);font:inherit;font-size:12px;font-weight:700;min-width:30px;padding:0 3px!important;height:24px;border-radius:6px;cursor:pointer;padding:0}
+.sbtn{width:auto;min-width:26px;padding:0 4px;line-height:0}
+.sbtn .dia{width:11px;height:11px;margin:0 -1.5px}
+.sbtn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.lockb{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:700;color:var(--ink);background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:0 5px;margin-left:5px}
+.lockb .dia{width:14px;height:14px;margin-right:-2px}
 .none{color:var(--muted);font-size:13px}
 footer{margin-top:28px;color:var(--muted);font-size:12px;max-width:70ch}
 @media (prefers-reduced-motion:no-preference){.chip,.use{transition:background .12s,opacity .15s,border-color .12s}}
@@ -187,7 +216,7 @@ footer{margin-top:28px;color:var(--muted);font-size:12px;max-width:70ch}
   <section id="browser" aria-label="依階層瀏覽元素"></section>
   <aside id="detail" aria-live="polite"></aside>
 </main>
-<footer>資料取自遊戲安裝檔內的合成登錄表（RecipeRegistry），共 86 條配方。每張卡片下方的小字是該元素的配方；切換到「我有什麼」後，輸入手上的元素和數量，就會列出現在能合成的、只差一樣材料的，以及依現有數量多步合成能做到的東西。在「查看圖鑑」模式下，點選任一元素可查看完整合成樹（左側會以橘紅色框標出下位物品、藍色虛線框標出上位物品）、所需基本元素數量，以及它還能合成什麼。同一條進化線（例如 烈焰 → 熔岩 → 黑曜石）在遊戲內共用一個編號。卡片底色沿用遊戲內品階卡的配色：第一階灰色（I）、第二階綠色（II）、第三階藍色（III）、第四階紫色（IV），基本元素也用灰色。品階以遊戲資料中的品階欄位為準，所以炸藥這條線（編號 3.1）歸在第二階。圖示版權屬於 Rollic Games，僅供個人參考。</footer>
+<footer>資料取自遊戲安裝檔內的合成登錄表（RecipeRegistry），共 86 條配方。每張卡片下方的小字是該元素的配方；切換到「我有什麼」後，輸入手上的元素和數量，就會列出現在能合成的、只差一樣材料的，以及依現有數量多步合成能做到的東西。在「查看圖鑑」模式下，點選任一元素可查看完整合成樹（左側會以橘紅色框標出下位物品、藍色虛線框標出上位物品）、所需基本元素數量，以及它還能合成什麼。同一條進化線（例如 烈焰 → 熔岩 → 黑曜石）在遊戲內共用一個編號；卡片底部中央的菱形星星表示需要該線第一個元素達到幾星才會解鎖（1 星＝熟練度 Lv2，2 星＝Lv5，依遊戲畫面推斷）。卡片底色沿用遊戲內品階卡的配色：第一階灰色（I）、第二階綠色（II）、第三階藍色（III）、第四階紫色（IV），基本元素也用灰色。品階以遊戲資料中的品階欄位為準，所以炸藥這條線（編號 3.1）歸在第二階。圖示版權屬於 Rollic Games，僅供個人參考。</footer>
 </div>
 
 <script>
@@ -222,6 +251,18 @@ document.getElementById("stats").textContent = `${Object.keys(E).length} 個元�
 const lines = {};
 for (const id in E){ const e=E[id]; (lines[e.line]=lines[e.line]||[]).push(id); }
 const lineKeys = Object.keys(lines).sort((a,b)=>{const [a1,a2]=a.split(".").map(Number),[b1,b2]=b.split(".").map(Number);return a1-b1||a2-b2;});
+// ── 星級（熟練度）解鎖：進化線第 2 個元素需第 1 個元素 1 星（Lv2），第 3 個需 2 星（Lv5）
+const STAR_LV = [0,2,5,10];
+const DIA = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAGeElEQVR42sWZW2xcxRnHfzNzbGd3o1ywzbVSL+DGIFVECkgGkbggXvrUlFaUtFFJyi03GhRAgoqCEOpLw4PttYNsQukNldA+IGhcJWqLnPLURpSQcAlIpTRNIghIMclubO858/FwZk5mb7YxiXuk0a7O7n7nd/7/75uZ8y3M/TDu9XKgD3gPqACTwDvAINBV8915OyL3+gPgBCBNxkfuO+Fv5g3ujgAkBqzWWrRWAlh3zn9+x3xB+gvcHoAlgCilMuWUysCSAHTd+Yb0gdc4hRLAKqUyuKuXL5fl3/hSBulAE38TwA9djJbzCZeEcMYYAeSpHYNiRUROPCTDjxUEtBidQdrgd2vOtZItNcpZD6e1FkBGRkZERCQRkeTIfSLHLpWRJy4WoBbSjzXnSkkf4LYgeBLCFYtFERGpTE2ItVbskU0ydeAikePdMvDT9lrIJIhz2xdV0sOt9lXq4bytg4ODKVylImJjERGR/20UOXSRVA4tEzm2TIqPdDaDTIDvzlXJKFBuqlHOZcpVKilYDaC83S1Th7pEjndL8ZELU0hTZ3c8F7ujZjnn4QYGBqrhGgG+0y3ydpdUDl0hcrxb+h9ubwb5uQqnUUFU2bp9+/Z6uGkAU8gukaNd8osHLnCQak6FEy5fnw9uBkB5y0EeWybbPWTjwqlbFk1wInaz/W/cpIpSSmutSZKEvr4+tm3bRhzHRFEjJwSUhtN7YeJN0DkfBhRoBXFZuOHGPBe0KUb/fgat/ac+AN8D/gu85pisCeB+DPzS3YkK4fr7+9m6des0cAHgqb/AxMFqQA+pIS7DdTcupCOnGR0rYUwd5GrgGLAf0o8t8H3gtwGcUkphrWVoaIgtW7bMABcC7m0M6A6tIS5ZenrzdOQ0u8fKmGolLfBt4F3gDQN8BdgNtHlbPVyxWGTz5s2zgJs9YAqpiEtCz6o87W3C6L4zaAWoDBLgZmCXAZ4AVrmpxACICDt37mTDhg2zhAtz8K9w5sC0gJmSZct1vXkuWxzx0iulENICeW/xILAEUFprBbBjqMjd92wgrkwSRXqa/WgwJElNOj0G5X+BXgBip70lrSAuwbW9BS5ZqPnTWAmlQCRTskO5bXqktcZay4oV17B//z9JBIyawwL5yc/h4x1gloLELrWmD5RYweSEFd/6D6+9NYnRkKT3VonqfLCTcHoUrE0voKTeKdXqLupsVa2pWtrAiX/Ax+NgEqeqg1MBpHIlbROy6bpVYxPJSjkoft4HvuzyQomF4Z/luWvjIuITMZHRDQTQNSF0OpSCD47AKUlPyYziEScQLYEdL8C9z6RhrM0Y/22ArwE97j40Cl4eS7h0UY5rV7UTT+TQOpcmfTYWnB1qQaqgaoWoFcZLUKmk+aHdUI1HLIpoieLpF2HjyFlTMhZ43rhHxNuBnNuqK62Fl18p0ZnX9KzMEZdjtJqpUNwFTp6EqXjWyg3+ATYNp46TZpOHOwX8yAAngaPALYH9ymjYPVaiM6fp6c0TlyyuyJscTpmT4zMCxglEi1O4e58Go0HE8yEOcB3wql/qXndr4OqGkHlDT2+BuCR+/ZwzYCM4KyCSwRngTreyZUtd5BboD4DvBL5lkEvbFNf35onL4ifUJoCfNgWMLUSLoH8XbH0mtVVSOBtU3zrgWceUmGD985Dvuq24yiAN/HlfmYJWrLxpYXNIrWH8U5isVBe6h1sMTz4H9/8qsDWF89HWAr8LNjBVPRPrNosHaiABVGRgz6tlChpW3lQgLjfISa1Ti2sA4yRV7snn4MFfp77ZajjcM/PvHUNMk6aOV/INB3mLDyAB5NI2Jdd/s6DqCqcBoK/WgV2w7dm6nPMurXVwUQjXrOsUKvmey8lMSWNgdF9Zdea09PQuVFWFE1qsoGKhZQkMvgA/2VkHh9tNrwWebwQ3XVsshDzo7NZpbF84ZdWRV/SsKriclHRZHD8FExVioGVxCldTrd5WC9wK/LHW1rk8G99a/ZySPlMAMvRop8jRLpk6eLnYw8vE7snL1C5E9iIDdzLd88c5a4E0aX2chRx+vF3keJckh6+UZE9eZA8ysol5aX3M0DxCtIN86rEOkfe/LvZvBRm+q6Fy56151EhJCSGVm9ivuapFrr7C1LbfbNB+WzNfPcJ19Q1MZmpgrp/vLuv6+hZwZnltC3j9/6tPPVMT/cP5sHU2f0MUgcOuE1Zx7/uAr37RvyE+AwN7LAv47Bs3AAAAAElFTkSuQmCC";
+const dia = (n,cls="") => Array.from({length:n},()=>`<img class="dia${cls?" "+cls:""}" src="${DIA}" alt="">`).join("");
+const rootOf = {};
+for (const k in lines){ const r = lines[k].find(id=>E[id].s===0); if (r) for (const id of lines[k]) if (E[id].s>0) rootOf[id]=r; }
+const needStar = id => rootOf[id] ? Math.min(E[id].s,3) : 0;
+const starRoots = [...new Set(Object.values(rootOf))];
+const stars = new Map(); let starsOn = true;
+try{ const s=JSON.parse(localStorage.getItem("ic-stars")||"{}"); for(const k in s) if(E[k]) stars.set(k, Math.max(0,Math.min(3,s[k]|0))); const o=localStorage.getItem("ic-starsOn"); if(o!==null) starsOn = o==="1"; }catch(_){}
+function saveStars(){ try{ localStorage.setItem("ic-stars", JSON.stringify(Object.fromEntries(stars))); localStorage.setItem("ic-starsOn", starsOn?"1":"0"); }catch(_){} }
+const unlocked = id => !starsOn || !needStar(id) || (stars.get(rootOf[id])||0) >= needStar(id);
 let html="";
 for (let g=0; g<=4; g++){
   const ks = lineKeys.filter(k=>E[lines[k][0]].g===g);
@@ -243,7 +284,7 @@ function chip(id){
   const e=E[id], r=recipeOf[id];
   const sub = r ? `${E[r[0]].zh}＋${E[r[1]].zh}` : "基本";
   const subEn = r ? `${r[0]} + ${r[1]}` : "Base";
-  return `<button class="chip t${tc(e.g)}" data-id="${id}" title="${esc(e.zh)} ${esc(id)} · ${e.g?`品階 ${ROMAN[e.g-1]}`:"基本元素"}">${img(id)}<span class="band"><b>${e.zh}</b><u>${esc(id)}</u><i>${sub}</i><i class="ien">${esc(subEn)}</i></span></button>`;
+  return `<button class="chip t${tc(e.g)}${needStar(id)?" has-req":""}" data-id="${id}" title="${esc(e.zh)} ${esc(id)} · ${e.g?`品階 ${ROMAN[e.g-1]}`:"基本元素"}">${needStar(id)?`<span class="req" title="需要 ${esc(E[rootOf[id]].zh)} ${esc(rootOf[id])} ${needStar(id)} 星（熟練度 Lv${STAR_LV[needStar(id)]}）">${dia(needStar(id))}</span>`:""}${img(id)}<span class="band"><b>${e.zh}</b><u>${esc(id)}</u><i>${sub}</i><i class="ien">${esc(subEn)}</i></span></button>`;
 }
 const browser = document.getElementById("browser");
 browser.innerHTML = html;
@@ -282,6 +323,7 @@ function select(id, push){
     <div class="hero t${tc(e.g)}">${img(id)}<div><h3>${e.zh}</h3><div class="en">${esc(e.id)}</div>
       <span class="badge" style="background:var(--tb);color:var(--card-ink);border-color:var(--card-line)">${e.g?`品階 ${ROMAN[e.g-1]} · `:""}${TIER[e.g]}${e.g?` · 線 ${e.line}`:""}</span></div></div>
     <p class="desc">${esc(e.desc)}</p><p class="desc-en">${esc(e.en)}</p>
+    ${needStar(id)?`<div class="unlock">解鎖條件：<button class="node" data-id="${rootOf[id]}">${E[rootOf[id]].zh} ${esc(rootOf[id])}</button> 熟練度 Lv${STAR_LV[needStar(id)]}<span class="st">${dia(needStar(id))}</span></div>`:""}
     ${r?`<div class="sec"><span>所需基本元素</span><span>${total} 個 · 合成 ${steps} 次</span></div><div class="cost">${bar}</div><div class="costkey">${key}</div>
     <div class="sec"><span>合成樹</span><span><button class="tog" id="collapseAll" style="width:auto;padding:0 8px" aria-label="全部收合或展開">全部收合</button></span></div><ul class="tree">${treeHTML(id)}</ul>`:`<div class="sec"><span>基本元素</span></div><p class="none">開局就有，不需要合成。</p>`}
     <div class="sec"><span>可用於合成（直接上位）</span><span>${(usedIn[id]||[]).length} 種</span></div>
@@ -309,11 +351,13 @@ detail.addEventListener("click", ev=>{
     else if (a==="bases"){ for(const b of BASE) addOwn(b,1,true); saveOwned(); renderCraft(); }
     else if (a==="clear"){ owned.clear(); saveOwned(); renderCraft(); }
     else if (a==="go"){ setMode("browse"); select(id,true); }
+    else if (a==="star"){ stars.set(id, +act.dataset.v); saveStars(); renderCraft(); const d=detail.querySelector("details.stars-box"); if(d) d.open=true; }
     return; }
   const n = t.closest(".node,.use,.up"); if (n){ if(mode==="craft") setMode("browse"); select(n.dataset.id,true); }
 });
 detail.addEventListener("change", ev=>{
   const t = ev.target;
+  if (t.id==="starsOn"){ starsOn=t.checked; saveStars(); renderCraft(); const d=detail.querySelector("details.stars-box"); if(d) d.open=true; return; }
   if (t.classList.contains("qty")) setOwn(t.dataset.id, Math.max(0, Math.min(999, parseInt(t.value,10)||0)));
 });
 detail.addEventListener("submit", ev=>{
@@ -351,9 +395,9 @@ function findEl(v){
 }
 function toggleOwn(id){ addOwn(id,1); }
 // 每個元素只有一種配方，所以由上往下「有現成的就拿現成的，沒有才往下拆」即可算出實際消耗
-function take(id, inv, st){ const c=inv.get(id)||0; if(c>0){ inv.set(id,c-1); return true; } const r=recipeOf[id]; if(!r) return false; st.n++; return take(r[0],inv,st) && take(r[1],inv,st); }
+function take(id, inv, st){ const c=inv.get(id)||0; if(c>0){ inv.set(id,c-1); return true; } const r=recipeOf[id]; if(!r || !unlocked(id)) return false; st.n++; return take(r[0],inv,st) && take(r[1],inv,st); }
 function plan(id){
-  const r = recipeOf[id]; if (!r) return {n:0, steps:0};
+  const r = recipeOf[id]; if (!r || !unlocked(id)) return {n:0, steps:0};
   const inv = new Map(owned); let n=0, steps=0;
   while (n<999){ const st={n:1}; if (take(r[0],inv,st) && take(r[1],inv,st)){ if(!n) steps=st.n; n++; } else break; }
   return {n, steps};
@@ -368,7 +412,7 @@ function setMode(m){
     for (const ch of browser.querySelectorAll(".chip")) ch.classList.remove("on","anc","desc");
     try{ history.replaceState(null,"","#craft"); }catch(_){}
     renderCraft(); }
-  else { for (const ch of browser.querySelectorAll(".chip")){ ch.classList.remove("own","can"); delete ch.dataset.n; } select(lastSel,true); }
+  else { for (const ch of browser.querySelectorAll(".chip")){ ch.classList.remove("own","can","lock"); delete ch.dataset.n; } select(lastSel,true); }
 }
 document.querySelector(".mode").addEventListener("click", ev=>{ const b=ev.target.closest("button"); if(b && b.dataset.mode!==mode) setMode(b.dataset.mode); });
 const ic = (id,miss) => `<span class="ic t${tc(E[id].g)}${miss?" miss":""}" title="${esc(E[id].zh)} ${esc(id)}">${img(id)}</span>`;
@@ -379,11 +423,11 @@ function rcpRow(a,b,o,info){
     ? `<span class="miss-label">缺 ${E[info.miss].zh} ${esc(info.miss)} ×${info.k}</span>`
     : `${E[a].zh} ${esc(a)}（有 ${cnt(a)}）＋ ${E[b].zh} ${esc(b)}${two?"":`（有 ${cnt(b)}）`}`;
   return `<button class="rcp" data-act="go" data-id="${o}">${ic(a,info.miss===a)}<span class="op">＋</span>${ic(b,info.miss===b)}<span class="op">→</span>
-    <span class="out">${ic(o)}<span><b>${E[o].zh}</b> ${esc(o)}${info.times?`<span class="times">可做 ×${info.times}</span>`:""}${two?`<span class="need2">需 2 個</span>`:""}
+    <span class="out">${ic(o)}<span><b>${E[o].zh}</b> ${esc(o)}${info.times?`<span class="times">可做 ×${info.times}</span>`:""}${two?`<span class="need2">需 2 個</span>`:""}${(info.lock||!unlocked(o))?`<span class="lockb">需 ${E[rootOf[o]].zh} ${dia(needStar(o))}</span>`:""}
     <small>${tail}</small></span></span></button>`;
 }
 function renderCraft(){
-  const now=[], near=[];
+  let now=[], near=[];
   for (const [a,b,o] of R){
     if (a===b){
       const c=cnt(a), times=Math.floor(c/2);
@@ -394,6 +438,9 @@ function renderCraft(){
       else if (ca||cb) near.push([a,b,o,{miss:ca?b:a,k:1}]);
     }
   }
+  const lockedNow = now.filter(r=>!unlocked(r[2]));
+  now = now.filter(r=>unlocked(r[2]));
+  for (const r of near) if (!unlocked(r[2])) r[3].lock = true;
   const nowSet = new Set(now.map(r=>r[2]));
   const multi = [];
   for (const id in E){ if (!recipeOf[id] || nowSet.has(id)) continue; const p=plan(id); if (p.n) multi.push([id,p]); }
@@ -401,7 +448,7 @@ function renderCraft(){
   now.sort((x,y)=>byLine(x[2],y[2])); near.sort((x,y)=>byLine(x[2],y[2]));
   for (const ch of browser.querySelectorAll(".chip")){
     const k=ch.dataset.id, c=cnt(k);
-    ch.classList.toggle("own", c>0); ch.classList.toggle("can", nowSet.has(k));
+    ch.classList.toggle("own", c>0); ch.classList.toggle("can", nowSet.has(k)); ch.classList.toggle("lock", !unlocked(k));
     if (c>0) ch.dataset.n = "×"+c; else delete ch.dataset.n;
   }
   const total = [...owned.values()].reduce((s,n)=>s+n,0);
@@ -416,8 +463,13 @@ function renderCraft(){
     <div class="sec"><span>手上的元素</span><span>${owned.size} 種 · 共 ${total} 個</span></div>
     ${owned.size?`<div class="owned">${ownList.map(id=>`<span class="own-tag t${tc(E[id].g)}">${img(id)}<span class="nm">${E[id].zh}</span><button type="button" data-act="dec" data-id="${id}" aria-label="${esc(E[id].zh)} 減 1">−</button><input class="qty" type="number" min="0" max="999" value="${cnt(id)}" data-id="${id}" aria-label="${esc(E[id].zh)} 數量"><button type="button" data-act="inc" data-id="${id}" aria-label="${esc(E[id].zh)} 加 1">＋</button><button type="button" class="x" data-act="rm" data-id="${id}" aria-label="移除 ${esc(E[id].zh)}">×</button></span>`).join("")}</div>`:`<p class="none">還沒有加入任何元素。</p>`}
     <div class="tools"><button class="btn" type="button" data-act="bases">四個基本元素各 +1</button>${owned.size?`<button class="btn" type="button" data-act="clear">全部清空</button>`:""}</div>
+    <details class="stars-box"><summary>熟練度星級（${starsOn?`已啟用 · 設定了 ${[...stars.values()].filter(v=>v>0).length} 條線`:"未啟用"}）</summary>
+      <label class="stars-opt"><input type="checkbox" id="starsOn" ${starsOn?"checked":""}> 依星級限制計算（進化線第 2 個元素需 1 星，第 3 個需 2 星）</label>
+      <div class="stars">${starRoots.sort(byLine).map(r=>`<div class="srow t${tc(E[r].g)}">${img(r)}<span class="nm">${E[r].zh}<small>${esc(r)}</small></span>${[0,1,2,3].map(v=>`<button type="button" class="sbtn" data-act="star" data-id="${r}" data-v="${v}" aria-pressed="${(stars.get(r)||0)===v}" title="${v?`${v} 星（熟練度 Lv${STAR_LV[v]}）`:"0 星"}">${v?dia(v):"0"}</button>`).join("")}</div>`).join("")}</div>
+    </details>
     <div class="sec"><span>現在就能合成（一步）</span><span>${now.length} 種</span></div>
     ${now.length?now.map(r=>rcpRow(r[0],r[1],r[2],r[3])).join(""):`<p class="none">${owned.size?"目前的數量還湊不出任何一步配方。":"加入元素後，這裡會列出能合成的東西。"}</p>`}
+    ${lockedNow.length?`<div class="sec"><span>材料夠了，但星級不足</span><span>${lockedNow.length} 種</span></div>${lockedNow.sort((x,y)=>byLine(x[2],y[2])).map(r=>rcpRow(r[0],r[1],r[2],r[3])).join("")}`:""}
     <div class="sec"><span>只差一樣材料</span><span>${near.length} 種</span></div>
     ${near.length?near.map(r=>rcpRow(r[0],r[1],r[2],r[3])).join(""):`<p class="none">沒有只差一樣材料的配方。</p>`}
     ${multi.length?`<div class="sec"><span>多步合成能做到</span><span>${multi.length} 種</span></div>
